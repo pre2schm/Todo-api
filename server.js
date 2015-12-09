@@ -30,7 +30,7 @@ app.get('/todos/:id', function (req,res) {
 
 app.post('/todos', function (req,res){
 	var body = _.pick(req.body, 'description' , 'completed');
-	console.log()
+	
 	if (!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
 		return res.status(400).send();
 	}
@@ -39,6 +39,19 @@ app.post('/todos', function (req,res){
 	todos.push(body);
 	//res.status(200).send();
 	res.json(body);
+});
+
+app.delete('/todos/:id' , function (req, res){
+	var todoId = parseInt(req.params.id,10);
+	var matchedTodo = _.findWhere(todos,{id: todoId});
+
+	if(matchedTodo){
+		todos = _.without(todos,matchedTodo);
+		//res.status(200).send();
+		res.json(matchedTodo);
+	} else {
+		res.status(404).send();
+	}
 });
 
 app.listen(PORT, function(){
