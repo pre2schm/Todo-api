@@ -62,14 +62,7 @@ app.post('/todos', function (req,res){
 	}, function (e) {
 		res.status(400).json(e);
 	});
-	// if (!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
-	// 	return res.status(400).send();
-	// }
-	// body.description = body.description.trim();
-	// body.id = todoNextId++;
-	// todos.push(body);
-	// //res.status(200).send();
-	// res.json(body);
+	
 });
 
 app.delete('/todos/:id' , function (req, res){
@@ -91,20 +84,6 @@ app.delete('/todos/:id' , function (req, res){
 		res.status(500).send();
 	});
 
-	// db.todo.findById(todoId).then(function(todo){
-		 	
-	// 	 	if(todo){
-	// 	 		res.json(todo.toJSON());
-	// 	 		return todo.destroy();
-
-	// 	 	} else {
-	// 	 		res.status(404).json({
-	// 	 			error: 'no todo found'
-	// 	 		});
-	// 	 	}
-	// 	 }, function (e) {
-	// 	 	res.status(500).send();
-	// 	 });
 
 });
 
@@ -134,6 +113,16 @@ app.put('/todos/:id', function (req,res){
 		}
 	}, function () {
 			res.status(500).send();
+	});
+});
+
+app.post('/users', function (req,res){
+	var body = _.pick(req.body, 'email' , 'password');
+	
+	db.user.create(body).then(function(user){
+		res.json(user.toJSON());
+	}, function (e) {
+		res.status(400).json(e);
 	});
 });
 
